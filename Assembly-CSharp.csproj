@@ -58,6 +58,12 @@
      <Compile Include="Assets\Paint3D\Scripts\MoveWithHead.cs" />
      <Compile Include="Assets\Paint3D\Scripts\Paint3DMain.cs" />
      <Compile Include="Assets\Paint3D\Scripts\PerlinWaves.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\Brush.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\BrushManager.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\IBrush.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\LineBrush.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\Painting.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\Stroke.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\SampleScenes\Menu\Scripts\ReturnToMainMenu.cs" />

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 using MinVR;
 
@@ -16,10 +17,29 @@ public class Paint3DMain : MonoBehaviour
 	[Tooltip ("This GameObject will move around with the tracker attached to the Hand.")]
 	public GameObject handCursor;
 
+	// holding all strokes of one user
+	public GameObject painting;
+
+	// painting script class attached to painting gameobject
+	private Painting paintingComponent;
+
+	// For fake line drawing test use
+	private bool isMousePressed;
 
 	void Start ()
 	{
 		VRMain.VREventHandler += OnVREvent;
+		isMousePressed = false;
+		paintingComponent = painting.GetComponent <Painting> ();
+		/*
+		Debug.Log (paintingComponent);
+		if (paintingComponent is Painting) {
+			Debug.Log ("found painting");
+		} else {
+			Debug.Log ("does not found painting");
+		}
+		*/
+		// TODO: catch if painting Component is null exception
 	}
 
 
@@ -27,15 +47,15 @@ public class Paint3DMain : MonoBehaviour
 	{
 
 		// If brush button is down, then add to the painting
-		if (Input.GetMouseButton (0)) {
-			// TODO: This creates a new painted object each frame.  Instead, for most brush types, 
-			// we probably want to create a new BrushStroke the first time the brush button is 
-			// pressed and then add to it each frame until the button is released.
-			GameObject paintedObj = GameObject.CreatePrimitive (PrimitiveType.Cube);
-			paintedObj.transform.parent = GameObject.Find ("Painting").transform;
-			paintedObj.transform.position = brushCursor.transform.position;
-			paintedObj.transform.rotation = brushCursor.transform.rotation;
-			paintedObj.transform.localScale = new Vector3 (0.3f, 0.3f, 0.3f);
+		if (Input.GetMouseButtonDown (0)) {
+			paintingComponent.startNewStroke (painting, brushCursor);
+
+
+		}
+
+		if (Input.GetMouseButtonUp (0)) {
+			isMousePressed = false;
+			paintingComponent.EndStroke ();
 		}
 
 		// If the hand button is down, then grab on to the painting and move it about
@@ -45,6 +65,17 @@ public class Paint3DMain : MonoBehaviour
 			GameObject painting = GameObject.Find ("Painting");
 			painting.transform.position += posChange;
 			painting.transform.rotation *= rotChange;
+		}
+
+		if (isMousePressed) {
+			// when the left mouse button pressed
+			// continue to add vertex to line renderer
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			//if (!drawPoints.Contains (mousePos)) {
+			//	drawPoints.Add (mousePos);
+			//	lineRenderer.SetVertexCount (drawPoints.Count);
+			//	lineRenderer.SetPosition (drawPoints.Count - 1, mousePos);
+			//}
 		}
 
 

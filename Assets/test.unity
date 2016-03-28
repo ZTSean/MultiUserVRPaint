@@ -156,7 +156,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 93767476}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 250, y: 1.5, z: 250}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -406,6 +406,10 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 4a99ef84fedc94073b183f8814219dff, type: 3}
   m_PrefabInternal: {fileID: 903495278}
+--- !u!1 &984386665 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: 4a99ef84fedc94073b183f8814219dff, type: 3}
+  m_PrefabInternal: {fileID: 903495278}
 --- !u!1 &1057308994
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +479,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1380374920}
+  - 114: {fileID: 1380374921}
   m_Layer: 0
   m_Name: Painting
   m_TagString: Untagged
@@ -494,6 +499,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 552325820}
   m_RootOrder: 3
+--- !u!114 &1380374921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1380374919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c471040e433778044af49573d3759c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strokes: []
+  curStrokeIndex: 0
 --- !u!1 &1971539296
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,8 +552,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590b13d14d2c448cd9900582911f6a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brushCursor: {fileID: 0}
+  brushCursor: {fileID: 984386665}
   handCursor: {fileID: 298727545}
+  painting: {fileID: 1380374919}
 --- !u!1001 &2035415180
 Prefab:
   m_ObjectHideFlags: 0
@@ -589,11 +608,11 @@ Prefab:
       objectReference: {fileID: 2124546620}
     - target: {fileID: 11466066, guid: 4618769177eb84fd48686758aa53e7c9, type: 2}
       propertyPath: connectToVRServer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11466066, guid: 4618769177eb84fd48686758aa53e7c9, type: 2}
       propertyPath: fakeTrackersForDebugging
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2053592, guid: 4618769177eb84fd48686758aa53e7c9, type: 2}
       propertyPath: m_ClearFlags
@@ -626,6 +645,10 @@ Prefab:
     - target: {fileID: 2053592, guid: 4618769177eb84fd48686758aa53e7c9, type: 2}
       propertyPath: m_BackGroundColor.b
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11466066, guid: 4618769177eb84fd48686758aa53e7c9, type: 2}
+      propertyPath: fakeHeadTracking
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4618769177eb84fd48686758aa53e7c9, type: 2}
@@ -701,7 +724,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2124546620}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 254.9, y: 1.5, z: 249.86655}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
