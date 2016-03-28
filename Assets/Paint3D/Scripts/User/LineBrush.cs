@@ -35,7 +35,9 @@ public class LineBrush : Brush
 	/// </summary>
 	public override void AddVertex (Vertex v)
 	{
-		lr.SetPosition (count, v.position);
+		Debug.Log ("brush add vertex and refresh");
+		Refresh ();
+		lr.SetPosition (count - 1, v.position);
 	}
 
 	/// <summary>
@@ -59,7 +61,7 @@ public class LineBrush : Brush
 		if (newOptions.TryGetValue ("EndWidth", out endW)) {
 			// TODO: try catch invalid value exception
 			if (startW is float) {
-				startWidth = (float)startW;
+				endWidth = (float)startW;
 			}
 		}
 
@@ -87,18 +89,35 @@ public class LineBrush : Brush
 		Dictionary<string, object> opt = new Dictionary<string, object> ();
 		opt.Add ("StartWidth", startWidth);
 		opt.Add ("EndWidth", endWidth);
-		opt.Add ("StartColor", Color.blue);
-		opt.Add ("EndColor", Color.blue);
+		opt.Add ("StartColor", startColor);
+		opt.Add ("EndColor", endColor);
 		return opt;
 	}
 
+
+
 	//===================================================
+	/// <summary>
+	/// Initialize this instance.
+	/// </summary>
+	public override void Initialize (Stroke s, Dictionary<string, object> newOptions)
+	{
+		stroke = s;
+		count = s.vertices.Count;
+		// TODO: try catch could not get component exception
+		lr = s.GetComponent<LineRenderer> ();
+		SetOptions (newOptions);
+	}
+
 	/// <summary>
 	/// Refreshes the Brush(update information from its parent stroke such as count, linerenderer)
 	/// </summary>
 	public override void Refresh ()
 	{
 		count = stroke.vertices.Count;
+		Debug.Log ("Count: " + count.ToString ());
+		lr.SetVertexCount (count);
+
 	}
 
 	/// <summary>

@@ -34,24 +34,21 @@ public class Painting : MonoBehaviour
 
 		if (CurStroke == null) {
 			// ################# using prefab to create stroke game object #################
-			/*
-			// Make sure current stroke is empty and Create a new stroke according to selected brush type
-			System.Console.WriteLine ("strokes length", strokes.Count + 1);
-			GameObject newStroke = GameObject.Instantiate (BrushManager.getPrefab (SelectedBrush));
-			*/
-			// #############################################################################
-			string name = "Stroke_" + strokes.Count.ToString ();
-			GameObject newStroke = new GameObject (name);
 
-			// Add stroke component according to SelectedBrush
-			newStroke.AddComponent <Stroke> ();
+			// Make sure current stroke is empty and Create a new stroke according to selected brush type
+			// GameObject.Instantiate(Object original, Vector3 position, Quaternion rotation);
+			// original: An existing object that you want to make a copy of.
+			// position: Position for the new object (default Vector3.zero).
+			// rotation: Orientation of the new object (default Quaternion.identity).
+			GameObject newStroke = (GameObject)Instantiate (BrushManager.getPrefab (SelectedBrush), brushCursor.transform.position, brushCursor.transform.rotation);
+
+			// #############################################################################
+			// Rename new stroke gameobject in the scene
+			string name = "Stroke_" + strokes.Count.ToString ();
+			newStroke.name = name;
 
 			// Make new stroke be a child of painting object
 			newStroke.transform.parent = painting.transform;
-
-			// Set the new stroke position,rotation according to brushCursor position,rotation
-			newStroke.transform.position = brushCursor.transform.position;
-			newStroke.transform.rotation = brushCursor.transform.rotation;
 
 			// Scale new stroke size according whole project scale
 			// TODO: whole project scale needed to be redesigned
@@ -60,6 +57,7 @@ public class Painting : MonoBehaviour
 
 			// get newStroke's stroke object from script component
 			CurStroke = newStroke.GetComponent<Stroke> ();
+			CurStroke.Initialize ();
 			if (CurStroke is Stroke) {
 				Debug.Log ("Found Current strokeaaa");
 			} else {
@@ -75,14 +73,8 @@ public class Painting : MonoBehaviour
 				Debug.Log ("Not found Strokebbb");
 			}
 
-			if (options == null) {
-				Debug.Log ("opt null");
-			} else {
-				Debug.Log ("opt");
-			}
-
 			// Create brush scriptableobject related to current stroke
-			CurStroke.Brush = BrushManager.CreateBrush (CurStroke, SelectedBrush, null);
+			CurStroke.Brush = BrushManager.CreateBrush (CurStroke, SelectedBrush, options [SelectedBrush]);
 
 			// because in above line, brush of curStroke haven't been created, so pass null, to CreateBrush
 			// Set options after CurStroke.Brush been created
@@ -100,6 +92,7 @@ public class Painting : MonoBehaviour
 	{
 		// TODO: try catch exception that if v == null or could not add v to CurStroke 
 		if (CurStroke != null) {
+			Debug.Log ("addvertex");
 			CurStroke.AddVertex (v);	
 		}
 	}

@@ -34,6 +34,11 @@ public interface IBrush
 
 	//===================================================
 	/// <summary>
+	/// Initialize this instance.
+	/// </summary>
+	void Initialize (Stroke s, Dictionary<string, object> newOptions);
+
+	/// <summary>
 	/// Refreshes the Brush
 	/// </summary>
 	void Refresh ();

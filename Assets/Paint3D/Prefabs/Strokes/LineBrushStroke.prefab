@@ -11,7 +11,7 @@ GameObject:
   - 120: {fileID: 12085938}
   - 114: {fileID: 11479200}
   m_Layer: 0
-  m_Name: LineStroke
+  m_Name: LineBrushStroke
   m_TagString: LineStroke
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,6 +12,14 @@ public struct Vertex
 	public float pressure;
 	// must be multiple of 128-bits to use shader buffers efficiently
 	public Vector3 padding;
+
+	public Vertex (Vector4 p, Quaternion ori, float pre, Vector3 pad)
+	{
+		this.position = p;
+		this.orientation = ori;
+		this.pressure = pre;
+		this.padding = pad;
+	}
 }
 
 public class Stroke : MonoBehaviour
@@ -25,9 +33,6 @@ public class Stroke : MonoBehaviour
 			return mBrush;
 		}
 		set {
-			if (mBrush != value) {
-				mBrush.Dispose ();
-			}
 			mBrush = value;
 			mBrush.Refresh ();
 		}
@@ -44,21 +49,24 @@ public class Stroke : MonoBehaviour
 	/// <param name="v">V.</param>
 	public void AddVertex (Vertex v)
 	{
-		// TODO: try catch "new vertex is empty exception"
-		vertices.Add (v);
+		// TODO: try catch "new vertex is empty exception and v already exist"
+
+		if (!vertices.Contains (v)) {
+			Debug.Log ("stroke add vertex");
+			vertices.Add (v);
+			Debug.Log (vertices.Count);
+			Brush.AddVertex (v);
+		}
+
 	}
 
 	// Initialize the vertices
-	void Start ()
+	public void Initialize ()
 	{
 		// TODO: try catch "could not create exception"
 		vertices = new List<Vertex> ();
 	}
 
-
-	void Update ()
-	{
-	}
 
 
 }

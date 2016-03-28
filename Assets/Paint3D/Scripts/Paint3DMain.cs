@@ -49,8 +49,15 @@ public class Paint3DMain : MonoBehaviour
 		// If brush button is down, then add to the painting
 		if (Input.GetMouseButtonDown (0)) {
 			paintingComponent.startNewStroke (painting, brushCursor);
+			Vertex v = new Vertex (
+				           brushCursor.transform.position,
+				           brushCursor.transform.rotation,
+				           1,
+				           new Vector3 (0, 0, 0)
+			           );
+			paintingComponent.AddVertex (v);
 
-
+			isMousePressed = true;
 		}
 
 		if (Input.GetMouseButtonUp (0)) {
@@ -70,12 +77,13 @@ public class Paint3DMain : MonoBehaviour
 		if (isMousePressed) {
 			// when the left mouse button pressed
 			// continue to add vertex to line renderer
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-			//if (!drawPoints.Contains (mousePos)) {
-			//	drawPoints.Add (mousePos);
-			//	lineRenderer.SetVertexCount (drawPoints.Count);
-			//	lineRenderer.SetPosition (drawPoints.Count - 1, mousePos);
-			//}
+			Vertex v = new Vertex (
+				           brushCursor.transform.position,
+				           brushCursor.transform.rotation,
+				           1,
+				           new Vector3 (0, 0, 0)
+			           );
+			paintingComponent.AddVertex (v);
 		}
 
 

@@ -31,11 +31,21 @@ public class BrushManager
 		get {
 			if (availableBrushPrefabs == null) {
 				availableBrushPrefabs = new Dictionary<BrushType, GameObject> ();
-				UnityEngine.Object[] prefabs;
-				// !!! the path of all available brushes prefab
-				string path = "../../Prefabs/Strokes";
-				prefabs = AssetDatabase.LoadAllAssetsAtPath (path);
+				List<GameObject> prefabs = new List<GameObject> ();
 
+				// !!! the path of all available brushes prefab
+				string[] path = new string[]{ "Assets/Paint3D/Prefabs/Strokes" };
+				string[] guids = AssetDatabase.FindAssets ("Stroke", path);
+
+
+				foreach (string guid in guids) {
+					string tmp = AssetDatabase.GUIDToAssetPath (guid);
+					Debug.Log (tmp);
+					prefabs.Add (AssetDatabase.LoadAssetAtPath (tmp, typeof(GameObject)) as GameObject);
+				}
+
+
+				Debug.Log ("loop through prefab:" + prefabs.Count);
 				// console write names of all prefabs
 				foreach (var item in prefabs) {
 					Debug.Log (item.name);
@@ -44,7 +54,8 @@ public class BrushManager
 				// following code prerequisite: prefab name is constant to name in enum BrushType
 				foreach (BrushType type in Enum.GetValues(typeof(BrushType))) {
 					foreach (var item in prefabs) {
-						if (type.ToString () == item.name) {
+						// !!! play with file name: need to be optimazed
+						if ((type.ToString () + "Stroke") == item.name) {
 							AvailableBrushPrefabs.Add (type, (GameObject)item);
 							break;
 						}
@@ -64,13 +75,12 @@ public class BrushManager
 	/// <param name="stroke">Stroke.</param>
 	/// <param name="name">Name.</param>
 	/// <param name="options">Options.</param>
-	public static IBrush CreateBrush (Stroke stroke, BrushType type, Dictionary<string, object> options)
+	public static IBrush CreateBrush (Stroke stroke, BrushType type, Dictionary<string, object> newOptions)
 	{
 		// if unable to instantiate, return LineBrush with default options by default
 		// prerequisite: enum BrushType is constant with Brush class name
 		IBrush o = (ScriptableObject.CreateInstance (type.ToString ()) as IBrush) ?? ScriptableObject.CreateInstance<LineBrush> ();
-		o.Stroke = stroke;
-
+		o.Initialize (stroke, newOptions);
 		return o;
 	}
 
@@ -100,6 +110,8 @@ public class BrushManager
 
 	public static GameObject getPrefab (BrushType type)
 	{
-		return AvailableBrushPrefabs [type];
+		GameObject tmp;
+		AvailableBrushPrefabs.TryGetValue (type, out tmp);
+		return tmp;
 	}
 }

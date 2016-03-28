@@ -39,6 +39,11 @@ public abstract class Brush : ScriptableObject, IBrush
 
 	//===================================================
 	/// <summary>
+	/// Initialize this instance.
+	/// </summary>
+	public abstract void Initialize (Stroke s, Dictionary<string, object> newOptions);
+
+	/// <summary>
 	/// Refreshes the Brush
 	/// </summary>
 	public abstract void Refresh ();
