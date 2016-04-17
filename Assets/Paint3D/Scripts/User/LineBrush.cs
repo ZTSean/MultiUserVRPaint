@@ -35,7 +35,6 @@ public class LineBrush : Brush
 	/// </summary>
 	public override void AddVertex (Vertex v)
 	{
-		Debug.Log ("brush add vertex and refresh");
 		Refresh ();
 		lr.SetPosition (count - 1, v.position);
 	}
@@ -45,11 +44,6 @@ public class LineBrush : Brush
 	/// </summary>
 	public override void SetOptions (Dictionary<string, object> newOptions)
 	{
-		foreach (var item in newOptions) {
-			Debug.Log (item.Key + " " + item.Value.ToString ());
-		}
-
-
 		object startW, endW, startC, endC;
 		if (newOptions.TryGetValue ("StartWidth", out startW)) {
 			// TODO: try catch invalid value exception
@@ -115,7 +109,6 @@ public class LineBrush : Brush
 	public override void Refresh ()
 	{
 		count = stroke.vertices.Count;
-		Debug.Log ("Count: " + count.ToString ());
 		lr.SetVertexCount (count);
 
 	}

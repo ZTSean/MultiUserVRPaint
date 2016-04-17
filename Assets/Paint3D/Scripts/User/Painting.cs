@@ -48,7 +48,7 @@ public class Painting : MonoBehaviour
 			newStroke.name = name;
 
 			// Make new stroke be a child of painting object
-			newStroke.transform.parent = painting.transform;
+			newStroke.transform.SetParent (painting.transform, false);
 
 			// Scale new stroke size according whole project scale
 			// TODO: whole project scale needed to be redesigned
@@ -58,20 +58,10 @@ public class Painting : MonoBehaviour
 			// get newStroke's stroke object from script component
 			CurStroke = newStroke.GetComponent<Stroke> ();
 			CurStroke.Initialize ();
-			if (CurStroke is Stroke) {
-				Debug.Log ("Found Current strokeaaa");
-			} else {
-				Debug.Log ("Not found Strokeaaa");
-			}
 
 			// Add newStroke to stroke list 
 			strokes.Add (CurStroke);
 			curStrokeIndex = strokes.Count - 1;
-			if (CurStroke is Stroke) {
-				Debug.Log ("Found Current strokebbba");
-			} else {
-				Debug.Log ("Not found Strokebbb");
-			}
 
 			// Create brush scriptableobject related to current stroke
 			CurStroke.Brush = BrushManager.CreateBrush (CurStroke, SelectedBrush, options [SelectedBrush]);
@@ -92,7 +82,6 @@ public class Painting : MonoBehaviour
 	{
 		// TODO: try catch exception that if v == null or could not add v to CurStroke 
 		if (CurStroke != null) {
-			Debug.Log ("addvertex");
 			CurStroke.AddVertex (v);	
 		}
 	}
@@ -124,14 +113,6 @@ public class Painting : MonoBehaviour
 			}
 
 			options.Add (type, opt);
-		}
-
-		Debug.Log (options.Count);
-		foreach (var type in options) {
-			Debug.Log (type.Key);
-			foreach (var item in type.Value) {
-				Debug.Log (item.Key + " " + item.Value.ToString ());
-			}
 		}
 
 		// Initialize selected brush with line brush

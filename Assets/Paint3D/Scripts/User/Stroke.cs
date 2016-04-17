@@ -52,9 +52,9 @@ public class Stroke : MonoBehaviour
 		// TODO: try catch "new vertex is empty exception and v already exist"
 
 		if (!vertices.Contains (v)) {
-			Debug.Log ("stroke add vertex");
+			//Debug.Log ("stroke add vertex");
 			vertices.Add (v);
-			Debug.Log (vertices.Count);
+			//Debug.Log (vertices.Count);
 			Brush.AddVertex (v);
 		}
 

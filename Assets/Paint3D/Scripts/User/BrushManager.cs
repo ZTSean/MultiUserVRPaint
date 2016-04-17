@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEditor;
 
 public class BrushManager
 {
@@ -33,6 +32,8 @@ public class BrushManager
 				availableBrushPrefabs = new Dictionary<BrushType, GameObject> ();
 				List<GameObject> prefabs = new List<GameObject> ();
 
+				// ============ Only works for Editor ============
+				/*
 				// !!! the path of all available brushes prefab
 				string[] path = new string[]{ "Assets/Paint3D/Prefabs/Strokes" };
 				string[] guids = AssetDatabase.FindAssets ("Stroke", path);
@@ -40,16 +41,25 @@ public class BrushManager
 
 				foreach (string guid in guids) {
 					string tmp = AssetDatabase.GUIDToAssetPath (guid);
-					Debug.Log (tmp);
 					prefabs.Add (AssetDatabase.LoadAssetAtPath (tmp, typeof(GameObject)) as GameObject);
 				}
+				*/
+				// ===============================================
+				string path = "Strokes";
+				UnityEngine.Object[] temp = Resources.LoadAll (path);
 
+				Debug.Log ("strokes resources load count: " + temp.Length);
+				foreach (var item in temp) {
+					prefabs.Add ((GameObject)item);
+				}
+					
 
 				Debug.Log ("loop through prefab:" + prefabs.Count);
 				// console write names of all prefabs
 				foreach (var item in prefabs) {
 					Debug.Log (item.name);
 				}
+
 
 				// following code prerequisite: prefab name is constant to name in enum BrushType
 				foreach (BrushType type in Enum.GetValues(typeof(BrushType))) {
@@ -93,7 +103,6 @@ public class BrushManager
 	{
 		// prerequisite: enum BrushType is constant with Brush class name
 		string name = type.ToString ();
-		Debug.Log ("Brush type: " + name);
 
 		// create temporary instance of brush object
 		IBrush o = (ScriptableObject.CreateInstance (name) as IBrush);
