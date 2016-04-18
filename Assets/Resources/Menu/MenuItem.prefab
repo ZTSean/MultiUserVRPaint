@@ -29,6 +29,7 @@ GameObject:
   - 114: {fileID: 11451266}
   - 114: {fileID: 11473882}
   - 65: {fileID: 6522180}
+  - 114: {fileID: 11429074}
   m_Layer: 8
   m_Name: MenuItem
   m_TagString: Untagged
@@ -48,6 +49,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11429074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 155632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ede6b37a7359c4c83146b4e48b3a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11451266
 MonoBehaviour:
   m_ObjectHideFlags: 1

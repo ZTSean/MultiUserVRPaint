@@ -46,7 +46,7 @@ public class Menu : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		gameObject.SetActive (showMenu);
+
 	}
 
 
@@ -85,7 +85,7 @@ public class Menu : MonoBehaviour
 			// World space position!!!!
 			newMenuItem.GetComponent<RectTransform> ().position = new Vector3 ((div - 1) * itemMenuWidth, (mod - 1) * itemMenuHeight, 0);
 
-			// Set Box Collider 2D Size
+			// Set Box Collider Size
 			newMenuItem.GetComponent<BoxCollider> ().size = new Vector3 (itemMenuWidth, itemMenuHeight, 1);
 
 			// Set newMenuItem as child of Menu: set parent after set position will modify world space to local relative
@@ -102,7 +102,8 @@ public class Menu : MonoBehaviour
 			string temp = buttonClickFunctions.Keys.ElementAt (i);
 			b.GetComponentInChildren<Text> ().text = temp;
 
-			b.onClick.AddListener (() => testAdd (gameObject));
+			//b.onClick.AddListener (() => testAdd (gameObject));
+			b.GetComponent<Item> ().Clicked = buttonClickFunctions.Values.ElementAt (i);
 
 			// Add listener: hide the menu when choice been made
 			Debug.Log ("Function added: " + buttonClickFunctions.Keys.ElementAt (i));
@@ -154,7 +155,7 @@ public class Menu : MonoBehaviour
 			}*/
 
 			// if hover (collide), change to hover color
-			hits.First ().collider.gameObject.GetComponent<Button> ().onClick.Invoke ();
+			hits.First ().collider.gameObject.GetComponent<Item> ().Clicked (gameObject);
 		} else {
 			//Debug.DrawRay (pos, new Vector3 (0, -1, 0), Color.black); // test use
 		}

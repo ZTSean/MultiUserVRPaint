@@ -14,7 +14,6 @@ namespace MinVR
 		public string matrix4x4DataField = "Transform";
 		public GameObject user1Avatar;
 		public GameObject user2Avatar;
-		public GameObject testText;
 
 		public GameObject MenuContainer;
 
@@ -64,13 +63,20 @@ namespace MinVR
 
 				//------------------ Menu movement ------------------------
 				if (user_id == 1) {
+					/*
 					GameObject terrain = GameObject.Find ("Terrain");
 					MenuContainer.transform.position = new Vector3 (pos.x, terrain.transform.position.y, pos.z); 
 					MenuContainer.transform.rotation = newRot;
+					*/
 
-					testText.transform.position = pos;
-					testText.transform.rotation = rot;
-					testText.transform.FindChild ("Text").GetComponent<Text> ().text = "Move head";
+					Text hPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/HeadPosition").GetComponent<Text> ();
+					Text mPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/MenuPosition").GetComponent<Text> ();
+
+					MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
+					MenuContainer.transform.rotation = newRot;
+
+					hPos.text = "H pos: " + pos.ToString ();
+					mPos.text = "m Pos: " + MenuContainer.transform.position.ToString ();
 				}
 
 			} else if (e.Name == user2HeadTrackingEvent) {
@@ -101,13 +107,14 @@ namespace MinVR
 
 				//------------------ Menu movement ------------------------
 				if (user_id == 2) {
-					GameObject terrain = GameObject.Find ("Terrain");
-					MenuContainer.transform.position = new Vector3 (pos.x, terrain.transform.position.y, pos.z); 
+					Text hPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/HeadPosition").GetComponent<Text> ();
+					Text mPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/MenuPosition").GetComponent<Text> ();
+
+					MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
 					MenuContainer.transform.rotation = newRot;
 
-					testText.transform.position = pos;
-					testText.transform.rotation = rot;
-					testText.transform.FindChild ("Text").GetComponent<Text> ().text = "Move head";
+					hPos.text = "H pos: " + pos.ToString ();
+					mPos.text = "m Pos: " + MenuContainer.transform.position.ToString ();
 				}
 			}
 		}

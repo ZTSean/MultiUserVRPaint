@@ -92,15 +92,18 @@ public class MenuManager
 		Menu mc = newMenu.GetComponent <Menu> ();
 
 		// ---- For test use -----
-		mc.ShowMenu = true;
-		MenuManager.ShowMenu = true;
-		CurMenu = newMenu;
+		//mc.ShowMenu = true;
+		//MenuManager.ShowMenu = true;
+		//CurMenu = newMenu;
 
 		// Initialize new Created Menu position and size
 		mc.Initialize ();
 
 		// Initialize button in new created Menu
 		mc.InitializeButtions (btnFunctions);
+
+		Menus.Add (mc);
+		newMenu.SetActive (false);
 
 	}
 

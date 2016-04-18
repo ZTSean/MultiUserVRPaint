@@ -54,6 +54,8 @@
      <Compile Include="Assets\MinVR\Scripts\VRMain.cs" />
      <Compile Include="Assets\MinVR\Scripts\VRNetClient.cs" />
      <Compile Include="Assets\MinVR\Scripts\XMLUtils.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\DebugConsole.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\Menu\Item.cs" />
      <Compile Include="Assets\Paint3D\Scripts\Menu\Menu.cs" />
      <Compile Include="Assets\Paint3D\Scripts\Menu\MenuManager.cs" />
      <Compile Include="Assets\Paint3D\Scripts\MeshGenerator.cs" />

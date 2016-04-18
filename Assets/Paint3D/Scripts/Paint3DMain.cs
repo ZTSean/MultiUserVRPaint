@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 using MinVR;
+using UnityEngine.UI;
 
 
 /** This is the main class for the Paint3D application.  It listens for VREvents from the
@@ -39,6 +40,9 @@ public class Paint3DMain : MonoBehaviour
 	private bool isMousePressed;
 
 	private int user_id;
+
+	public Text hPos;
+	public Text mPos;
 
 	void Start ()
 	{
@@ -81,6 +85,7 @@ public class Paint3DMain : MonoBehaviour
 			paintingComponent.AddVertex (v);
 
 			isMousePressed = true;
+
 		}
 
 		if (Input.GetMouseButtonUp (0)) {
@@ -176,12 +181,6 @@ public class Paint3DMain : MonoBehaviour
 			headPos = m.GetTranslation ();
 			headRot = m.GetRotation ();
 
-			// Move menu along the head position and stay on the ZOY plane
-			if (user_id == 2) {
-				MenuContainer.transform.position = new Vector3 (headPos.x, -10, headPos.z);
-				MenuContainer.transform.rotation = headRot;
-			}
-
 		} 
 		// Button Controls --------------------------------------------------
 		else if (e.Name == "stylus0_btn1_up") {
@@ -191,10 +190,24 @@ public class Paint3DMain : MonoBehaviour
 				// Show Main Menu
 				if (MenuManager.CurMenu == null) {
 					// Open Main Menu
-					GameObject mainMenu = GameObject.Find ("MenuContainer/MainMenu");
-					mainMenu.GetComponent<Menu> ().ShowMenu = true;
-					MenuManager.CurMenu = mainMenu;
-					MenuManager.ShowMenu = true;
+					Menu mainMenu = null;
+					Debug.Log (MenuManager.Menus.Count);
+					foreach (var item in MenuManager.Menus) {
+						if (item.gameObject.name == "MainMenu") {
+							mainMenu = item;
+							break;
+						}
+					}
+
+					if (mainMenu == null) {
+						// TODO: catch could not find error
+					} else {
+						mainMenu.ShowMenu = true;
+						mainMenu.gameObject.SetActive (true);
+						MenuManager.CurMenu = mainMenu.gameObject;
+						MenuManager.ShowMenu = true;
+					}
+
 				} else {
 					MenuManager.CurMenu.GetComponent<Menu> ().ShowMenu = false;
 					MenuManager.CurMenu = null;
@@ -232,12 +245,6 @@ public class Paint3DMain : MonoBehaviour
 			Matrix4x4 m = VRConvert.ToMatrix4x4 (e.DataIndex.GetValueAsDoubleArray ("Transform"));
 			headPos = m.GetTranslation ();
 			headRot = m.GetRotation ();
-
-			// Move menu along the head position and stay on the ZOY plane
-			if (user_id == 1) {
-				MenuContainer.transform.position = new Vector3 (headPos.x, -30, headPos.z);
-				MenuContainer.transform.rotation = headRot;
-			}
 		} 
 		// Button Controls --------------------------------------------------
 		else if (e.Name == "stylus1_btn1_up") {
@@ -247,10 +254,25 @@ public class Paint3DMain : MonoBehaviour
 				// Show Main Menu
 				if (MenuManager.CurMenu == null) {
 					// Open Main Menu
-					GameObject mainMenu = GameObject.Find ("MenuContainer/MainMenu");
-					mainMenu.GetComponent<Menu> ().ShowMenu = true;
-					MenuManager.CurMenu = mainMenu;
-					MenuManager.ShowMenu = true;
+					Menu mainMenu = null;
+					Debug.Log (MenuManager.Menus.Count);
+					foreach (var item in MenuManager.Menus) {
+						if (item.gameObject.name == "MainMenu") {
+							mainMenu = item;
+
+							break;
+						}
+					}
+
+					if (mainMenu == null) {
+						// TODO: catch could not find error
+					} else {
+						mainMenu.ShowMenu = true;
+						mainMenu.gameObject.SetActive (true);
+						MenuManager.CurMenu = mainMenu.gameObject;
+						MenuManager.ShowMenu = true;
+					}
+
 				} else {
 					MenuManager.CurMenu.GetComponent<Menu> ().ShowMenu = false;
 					MenuManager.CurMenu = null;

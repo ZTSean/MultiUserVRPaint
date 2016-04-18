@@ -43,7 +43,7 @@ namespace MinVR
 
 		[Tooltip ("Fake head tracking with arrow keys. 'up' moves forward, 'down' moves backward, 'left' rotates left, 'right' rotates right.")]
 		public bool fakeHeadTracking = false;
-		public string fakeHeadTrackerEvent = "Head_Move";
+		public string fakeHeadTrackerEvent = "Head2_Move";
 		private Vector3 headTrackerPos = new Vector3 (0, 1, -10);
 		// the default camera position in Unity
 		private Quaternion headTrackerRot = Quaternion.identity;
