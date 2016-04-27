@@ -99,7 +99,7 @@ public class LineBrush : Brush
 		stroke = s;
 		count = s.vertices.Count;
 		// TODO: try catch could not get component exception
-		lr = s.GetComponent<LineRenderer> ();
+		lr = s.gameObject.GetComponent<LineRenderer> ();
 		SetOptions (newOptions);
 	}
 

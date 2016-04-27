@@ -15,6 +15,9 @@ namespace MinVR
 		public GameObject user1Avatar;
 		public GameObject user2Avatar;
 
+		public GameObject brush1;
+		public GameObject brush2;
+
 		public GameObject MenuContainer;
 
 		public int user_id = 1;
@@ -71,12 +74,14 @@ namespace MinVR
 
 					Text hPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/HeadPosition").GetComponent<Text> ();
 					Text mPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/MenuPosition").GetComponent<Text> ();
+					Text bPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/BrushPosition").GetComponent<Text> ();
 
-					MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
-					MenuContainer.transform.rotation = newRot;
+					//MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
+					//MenuContainer.transform.rotation = newRot;
 
 					hPos.text = "H pos: " + pos.ToString ();
 					mPos.text = "m Pos: " + MenuContainer.transform.position.ToString ();
+					bPos.text = "b Pos: " + brush1.transform.position.ToString ();
 				}
 
 			} else if (e.Name == user2HeadTrackingEvent) {
@@ -109,12 +114,14 @@ namespace MinVR
 				if (user_id == 2) {
 					Text hPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/HeadPosition").GetComponent<Text> ();
 					Text mPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/MenuPosition").GetComponent<Text> ();
+					Text bPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/BrushPosition").GetComponent<Text> ();
 
-					MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
-					MenuContainer.transform.rotation = newRot;
+					//MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
+					//MenuContainer.transform.rotation = newRot;
 
 					hPos.text = "H pos: " + pos.ToString ();
 					mPos.text = "m Pos: " + MenuContainer.transform.position.ToString ();
+					bPos.text = "b Pos: " + brush2.transform.position.ToString ();
 				}
 			}
 		}

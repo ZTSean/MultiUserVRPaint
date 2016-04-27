@@ -91,11 +91,6 @@ public class MenuManager
 
 		Menu mc = newMenu.GetComponent <Menu> ();
 
-		// ---- For test use -----
-		//mc.ShowMenu = true;
-		//MenuManager.ShowMenu = true;
-		//CurMenu = newMenu;
-
 		// Initialize new Created Menu position and size
 		mc.Initialize ();
 
@@ -104,6 +99,13 @@ public class MenuManager
 
 		Menus.Add (mc);
 		newMenu.SetActive (false);
+
+		// ---- For test use -----
+
+		mc.gameObject.SetActive (true);
+		MenuManager.ShowMenu = true;
+		CurMenu = newMenu;
+
 
 	}
 
@@ -119,16 +121,14 @@ public class MenuManager
 	//===================================================
 	// All Button Functionalities
 
-	//---------------------------------------------------
-	// First Level
+	//--------------------------------------------------- First Level
 	public static void ShowColorMap (GameObject currentMenu)
 	{
+		/*
 		// Hide menu this function attached to
-		currentMenu.SetActive (false);
-		MenuManager.ShowMenu = false;
-		MenuManager.CurMenu = null;
+		MenuManager.CloseMenu ();
 
-		// Show Color Picker map
+		// TODO: Show Color Picker map
 
 		Painting paintingComponent = GameObject.Find ("Painting").GetComponent<Painting> ();
 		// TODO: catch when could not find painting
@@ -139,6 +139,10 @@ public class MenuManager
 		curOptions ["EndColor"] = Color.red;
 
 		paintingComponent.CurStroke.Brush.SetOptions (curOptions);
+		*/
+
+		Text temp = GameObject.Find ("MinVRUnityClient/VRCameraPair/DrawingDebug").GetComponent<Text> ();
+		temp.GetComponent<Text> ().text = ("Success add: " + currentMenu.name);
 
 	}
 
@@ -146,17 +150,18 @@ public class MenuManager
 	{
 		// Show BrushType options
 		//CreateMenu (currentMenu);
-
+		Text temp = GameObject.Find ("MinVRUnityClient/VRCameraPair/DrawingDebug").GetComponent<Text> ();
+		temp.GetComponent<Text> ().text = ("Success add: " + currentMenu.name);
 
 	}
 
 	public static void StartCollaboration (GameObject currentMenu)
 	{
-		
+		Text temp = GameObject.Find ("MinVRUnityClient/VRCameraPair/DrawingDebug").GetComponent<Text> ();
+		temp.GetComponent<Text> ().text = ("Success add: " + currentMenu.name);
 	}
 
-	//---------------------------------------------------
-	// Second Level
+	//--------------------------------------------------- Second Level
 	public static void ChangeColor (GameObject currentMenu)
 	{
 		
@@ -167,5 +172,58 @@ public class MenuManager
 		
 	}
 
+	// Debug Functions
+	public static void drawDebugLine (Vector3 start, Vector3 dir, Color c)
+	{
+		GameObject tmp = GameObject.Find ("DebugLine");
 
+		if (tmp.GetComponent<LineRenderer> () == null) {
+			tmp.AddComponent<LineRenderer> ();
+		}
+		LineRenderer lr = tmp.GetComponent<LineRenderer> ();
+		lr.SetWidth ((float)0.01, (float)0.01);
+		lr.SetColors (c, c);
+		lr.SetVertexCount (2);
+
+		lr.SetPosition (0, start);
+		lr.SetPosition (1, start + dir);
+
+
+	}
+
+	public static void drawDebugLine2 (Vector3 start, Vector3 dir, Color c)
+	{
+		GameObject tmp = GameObject.Find ("DebugLine2");
+
+		if (tmp.GetComponent<LineRenderer> () == null) {
+			tmp.AddComponent<LineRenderer> ();
+		}
+		LineRenderer lr = tmp.GetComponent<LineRenderer> ();
+		lr.SetWidth ((float)0.01, (float)0.01);
+		lr.SetColors (c, c);
+		lr.SetVertexCount (2);
+
+		lr.SetPosition (0, start);
+		lr.SetPosition (1, start + dir);
+
+
+	}
+
+	public static void OpenMenu (Menu m, Vector3 pos, GameObject mContainer)
+	{
+		m.ShowMenu = true;
+		m.gameObject.SetActive (true);
+		MenuManager.CurMenu = m.gameObject;
+		MenuManager.ShowMenu = true;
+
+		mContainer.transform.position = pos;
+	}
+
+	public static void CloseMenu ()
+	{
+		MenuManager.CurMenu.GetComponent<Menu> ().ShowMenu = false;
+		MenuManager.CurMenu.SetActive (false);
+		MenuManager.CurMenu = null;
+		MenuManager.ShowMenu = false;
+	}
 }

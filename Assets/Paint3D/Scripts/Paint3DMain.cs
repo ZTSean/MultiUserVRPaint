@@ -43,6 +43,8 @@ public class Paint3DMain : MonoBehaviour
 
 	public Text hPos;
 	public Text mPos;
+	public Text bPos;
+	public Text drawingDebug;
 
 	void Start ()
 	{
@@ -75,6 +77,7 @@ public class Paint3DMain : MonoBehaviour
 		// If brush button is down, then add to the painting
 		// ---------------------test drawing using mouse left button
 		if (Input.GetMouseButtonDown (0)) {
+			/*
 			paintingComponent.startNewStroke (painting, brushCursor);
 			Vertex v = new Vertex (
 				           brushCursor.transform.position,
@@ -85,6 +88,7 @@ public class Paint3DMain : MonoBehaviour
 			paintingComponent.AddVertex (v);
 
 			isMousePressed = true;
+			*/
 
 		}
 
@@ -101,6 +105,8 @@ public class Paint3DMain : MonoBehaviour
 			GameObject painting = GameObject.Find ("Painting");
 			painting.transform.position += posChange;
 			painting.transform.rotation *= rotChange;
+
+			MenuManager.CurMenu.GetComponent<Menu> ().Clicked (brushCursor.transform.position);
 		}
 
 		if (isMousePressed) {
@@ -119,6 +125,7 @@ public class Paint3DMain : MonoBehaviour
 		// Real time cave drawing
 		//====================================================================
 		if (user1StartDrawing) {
+			drawingDebug.text = "Drawing user 1";
 			if (user_id == 1 && !MenuManager.ShowMenu) {
 				Vertex v = new Vertex (
 					           brushCursor.transform.position,
@@ -147,6 +154,9 @@ public class Paint3DMain : MonoBehaviour
 		lastHandPos = handPos;
 		lastHandRot = handRot;
 
+		// test
+		//MenuManager.drawDebugLine (GameObject.Find ("MenuContainer").transform.position, GameObject.Find ("MenuContainer").transform.position + new Vector3 (0, -10, 0), Color.blue);
+		MenuManager.isHover (brushCursor.transform.position);
 	}
 
 
@@ -168,7 +178,8 @@ public class Paint3DMain : MonoBehaviour
 			// Menu Selection ----------------------------------------------
 			if (MenuManager.ShowMenu && user_id == 2) {
 				// Color change when hover on the button
-				MenuManager.isHover (brushCursor.transform.position);
+				MenuManager.isHover (brushCursor2.transform.position);
+
 			}
 		} else if (e.Name == "Hand2_Move") {
 			Matrix4x4 m = VRConvert.ToMatrix4x4 (e.DataIndex.GetValueAsDoubleArray ("Transform"));
@@ -191,7 +202,7 @@ public class Paint3DMain : MonoBehaviour
 				if (MenuManager.CurMenu == null) {
 					// Open Main Menu
 					Menu mainMenu = null;
-					Debug.Log (MenuManager.Menus.Count);
+					//Debug.Log (MenuManager.Menus.Count);
 					foreach (var item in MenuManager.Menus) {
 						if (item.gameObject.name == "MainMenu") {
 							mainMenu = item;
@@ -202,25 +213,45 @@ public class Paint3DMain : MonoBehaviour
 					if (mainMenu == null) {
 						// TODO: catch could not find error
 					} else {
+						/*
 						mainMenu.ShowMenu = true;
 						mainMenu.gameObject.SetActive (true);
 						MenuManager.CurMenu = mainMenu.gameObject;
 						MenuManager.ShowMenu = true;
+						Vector3 hpos = GameObject.Find ("User2").transform.position;
+						MenuContainer.transform.position = new Vector3 (hpos.x, hpos.y - 70, hpos.z);
+						*/
+						Vector3 hpos = GameObject.Find ("User2").transform.position;
+
+						MenuManager.OpenMenu (mainMenu, new Vector3 (hpos.x, hpos.y - 2, hpos.z), MenuContainer);
 					}
 
 				} else {
-					MenuManager.CurMenu.GetComponent<Menu> ().ShowMenu = false;
-					MenuManager.CurMenu = null;
-					MenuManager.ShowMenu = false;
+					MenuManager.CloseMenu ();
 				}
 			}
 
 
 
 		} else if (e.Name == "stylus0_btn0_down") {
-			paintingComponent2.startNewStroke (painting, brushCursor);
+			if (user_id == 2) {
+				if (!MenuManager.ShowMenu) {
+					paintingComponent2.startNewStroke (painting2, brushCursor2);
+				}
+			} else if (user_id == 1) {
+				// determine user 2 whether menu is open
+			}
+
 		} else if (e.Name == "stylus0_btn0_up") {
-			paintingComponent2.EndStroke ();
+			if (user_id == 2) {
+				if (MenuManager.ShowMenu) {
+					// Call the function when the button is selected
+					MenuManager.CurMenu.GetComponent<Menu> ().Clicked (brushCursor2.transform.position);
+				} else {
+					paintingComponent2.EndStroke ();
+				}
+			}
+
 		}
 
 		// USER 1 ==========================================================
@@ -234,7 +265,7 @@ public class Paint3DMain : MonoBehaviour
 			if (MenuManager.ShowMenu && user_id == 1) {
 				// Color change when hover on the button
 				MenuManager.isHover (brushCursor.transform.position);
-			}
+			} 
 		} else if (e.Name == "Hand1_Move") {
 			Matrix4x4 m = VRConvert.ToMatrix4x4 (e.DataIndex.GetValueAsDoubleArray ("Transform"));
 			handPos = m.GetTranslation ();
@@ -259,7 +290,6 @@ public class Paint3DMain : MonoBehaviour
 					foreach (var item in MenuManager.Menus) {
 						if (item.gameObject.name == "MainMenu") {
 							mainMenu = item;
-
 							break;
 						}
 					}
@@ -267,16 +297,22 @@ public class Paint3DMain : MonoBehaviour
 					if (mainMenu == null) {
 						// TODO: catch could not find error
 					} else {
+						/*
 						mainMenu.ShowMenu = true;
 						mainMenu.gameObject.SetActive (true);
 						MenuManager.CurMenu = mainMenu.gameObject;
 						MenuManager.ShowMenu = true;
+						Vector3 hpos = GameObject.Find ("User1").transform.position;
+						MenuContainer.transform.position = new Vector3 (hpos.x, hpos.y - 70, hpos.z);
+						*/
+
+						Vector3 hpos = GameObject.Find ("User1").transform.position;
+
+						MenuManager.OpenMenu (mainMenu, new Vector3 (hpos.x, hpos.y - 2, hpos.z), MenuContainer);
 					}
 
 				} else {
-					MenuManager.CurMenu.GetComponent<Menu> ().ShowMenu = false;
-					MenuManager.CurMenu = null;
-					MenuManager.ShowMenu = false;
+					MenuManager.CloseMenu ();
 				}
 			}
 
@@ -286,7 +322,7 @@ public class Paint3DMain : MonoBehaviour
 					paintingComponent.startNewStroke (painting, brushCursor);	
 				}
 			} else if (user_id == 2) {
-				// test user 1 whether menu is open
+				// determine user 1 whether menu is open
 			}
 		} else if (e.Name == "stylus1_btn0_up") {
 			if (user_id == 1) {

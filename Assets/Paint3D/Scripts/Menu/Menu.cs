@@ -34,6 +34,22 @@ public class Menu : MonoBehaviour
 		}
 	}
 
+	private GameObject selectedButton;
+
+	public GameObject SelectedButton {
+		get {
+			if (selectedButton == null) {
+				return null;
+			}
+
+			return selectedButton;
+		}
+		set {
+			selectedButton = value;
+		}
+	}
+
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -95,6 +111,7 @@ public class Menu : MonoBehaviour
 		}
 
 
+		// Register functions
 		for (int i = 0; i < Buttons.Count && i < buttonClickFunctions.Count; i++) {
 			Button b = Buttons [i].GetComponent<Button> ();
 
@@ -102,8 +119,8 @@ public class Menu : MonoBehaviour
 			string temp = buttonClickFunctions.Keys.ElementAt (i);
 			b.GetComponentInChildren<Text> ().text = temp;
 
-			//b.onClick.AddListener (() => testAdd (gameObject));
 			b.GetComponent<Item> ().Clicked = buttonClickFunctions.Values.ElementAt (i);
+			//b.GetComponent<Item> ().Clicked = new buttonClick (testClick);
 
 			// Add listener: hide the menu when choice been made
 			Debug.Log ("Function added: " + buttonClickFunctions.Keys.ElementAt (i));
@@ -128,10 +145,43 @@ public class Menu : MonoBehaviour
 			}*/
 
 			// if hover (collide), change to hover color
-			hits.First ().collider.gameObject.GetComponent<Button> ().Select ();
+			GameObject tmp = hits.First ().collider.gameObject;
+			tmp.GetComponent<Button> ().Select ();
+			SelectedButton = tmp;
+
+			Debug.Log ("Add button selected: " + tmp.name);
+
+			//Debug.DrawLine (pos, pos + new Vector3 (0, -10, 0), Color.blue); // test use
+			//Debug.DrawRay (pos, new Vector3 (0, -1, 0), Color.blue); // test use
+			MenuManager.drawDebugLine2 (pos, pos + new Vector3 (0, -10, 0), Color.blue);
 		} else {
-			//Debug.DrawRay (pos, new Vector3 (0, -1, 0), Color.black); // test use
+			hits = Physics.RaycastAll (pos, new Vector3 (0, 1, 0), Mathf.Infinity, layerMask);
+
+			if (hits.Length > 0) {
+
+				// if hover (collide), change to hover color
+				GameObject tmp = hits.First ().collider.gameObject;
+				tmp.GetComponent<Button> ().Select ();
+				SelectedButton = tmp;
+
+			} else {
+				// remove "select" state from all button
+				foreach (var item in buttons) {
+					item.GetComponent<Button> ().navigation = Navigation.defaultNavigation;
+				}
+
+				//Debug.DrawRay (pos, new Vector3 (0, -1, 0), Color.black); // test use
+				//Debug.DrawLine (pos, pos + new Vector3 (0, -10, 0), Color.red); // test use
+				MenuManager.drawDebugLine2 (pos, pos + new Vector3 (0, -10, 0), Color.red);
+
+				Debug.Log ("remove button selected");
+				SelectedButton = null;
+			}
 		}
+
+
+
+		//MenuManager.drawDebugLine (GameObject.Find ("MenuContainer").transform.position, GameObject.Find ("MenuContainer").transform.position + new Vector3 (0, 10, 0), Color.green);
 			
 
 
@@ -139,32 +189,21 @@ public class Menu : MonoBehaviour
 
 	public void Clicked (Vector3 pos)
 	{
-		// Objects with colliders being hit by ray
-		RaycastHit[] hits;
-		// Only against colliders in layer 8
-		int layerMask = 1 << 8;
-
-		hits = Physics.RaycastAll (pos, new Vector3 (0, -1, 0), Mathf.Infinity, layerMask);
-
-		// Test whether there is a collision
-		if (hits.Length > 0) {
-			/* test use
-			Debug.DrawRay (pos, new Vector3 (0, -1, 0), Color.blue);
-			foreach (var item in hits) {
-				Debug.Log (item.collider.gameObject.name);
-			}*/
-
-			// if hover (collide), change to hover color
-			hits.First ().collider.gameObject.GetComponent<Item> ().Clicked (gameObject);
+		if (SelectedButton == null) {
+			// TODO: no button has been selected
+			Debug.Log ("no selected button");
 		} else {
-			//Debug.DrawRay (pos, new Vector3 (0, -1, 0), Color.black); // test use
+			// if hover (collide), change to hover color
+			SelectedButton.GetComponent<Item> ().Clicked (gameObject);
+
+			Debug.Log ("button has been selected");
 		}
 
 	}
 
-	public void testAdd (GameObject obj)
+	public void testClick (GameObject obj)
 	{
-		GameObject temp = GameObject.FindGameObjectWithTag ("TestUItext");
+		Text temp = GameObject.Find ("MinVRUnityClient/VRCameraPair/DrawingDebug").GetComponent<Text> ();
 		temp.GetComponent<Text> ().text = ("Success add: " + obj.name);
 	}
 
