@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace MinVR
 {
@@ -43,7 +44,7 @@ namespace MinVR
 
 		[Tooltip ("Fake head tracking with arrow keys. 'up' moves forward, 'down' moves backward, 'left' rotates left, 'right' rotates right.")]
 		public bool fakeHeadTracking = false;
-		public string fakeHeadTrackerEvent = "Head2_Move";
+		public string fakeHeadTrackerEvent = "Head_Move";
 		private Vector3 headTrackerPos = new Vector3 (0, 1, -10);
 		// the default camera position in Unity
 		private Quaternion headTrackerRot = Quaternion.identity;
@@ -138,11 +139,12 @@ namespace MinVR
             VRMain.AddInputEvent(new VREvent("BrushTypeChange", myEventData));
             */
 
-			/*
+
 			foreach (var item in clientEvents) {
 				inputEvents.Add (item);
-				clientEvents.Clear ();
-			}*/
+			}
+			clientEvents.Clear ();
+
 
 			if (fakeTrackersForDebugging) {
 				float x = Input.mousePosition.x;
@@ -266,21 +268,27 @@ namespace MinVR
 		// Client event create function
 		public void AddClientEvent (string eventName, int user_id)
 		{
-			/*
-			VRDataIndex myEventData = new VRDataIndex ();
-			Painting tmp = new Painting ();
+			Text temp = GameObject.Find ("MinVRUnityClient/VRCameraPair/DrawingDebug").GetComponent<Text> ();
+			temp.text = "addclientevent";
 
-			if (user_id == 1) {
-				tmp = GameObject.Find ("Paint3DInterface/Painting").GetComponent<Painting> ();
-			} else if (user_id == 2) {
+
+			// VRDataIndex for storing events data
+			VRDataIndex myEventData = new VRDataIndex ();
+
+			Painting tmp = GameObject.Find ("Paint3DInterface/Painting").GetComponent<Painting> ();
+			// Find different painting for different user
+			if (user_id == 2) {
 				tmp = GameObject.Find ("Paint3DInterface/Painting2").GetComponent<Painting> ();
 			}
+
 
 			if (eventName == "TypeChange") {
 				myEventData.AddData ("UserID", user_id);
 				myEventData.AddData ("BrushType", tmp.SelectedBrush);
-				clientEvents.Add (new VREvent (typeChangeEvent, myEventData));	
+				clientEvents.Add (new VREvent (typeChangeEvent, myEventData));
+
 			} else if (eventName == "ColorChange") {
+				
 				// Get changed color for current selected brush
 				// Convert to Color type when retieve data from hashtable
 				object sc = tmp.options [tmp.SelectedBrush] ["StartColor"];
@@ -290,10 +298,94 @@ namespace MinVR
 				myEventData.AddData ("BrushStartColor", sc);
 				myEventData.AddData ("BrushEndColor", ec);
 				clientEvents.Add (new VREvent (colorChangeEvent, myEventData));
+
 			} else if (eventName == "StartCollaboration") {
 				
-			}*/
+			} else if (eventName == "SyncCollaborate") {
+				
+				temp.GetComponent<Text> ().text = "1";
+				// 1. Collaboration class
 
+				myEventData.AddData ("CollaborateObject", MenuManager.Collaboration);
+
+				temp.GetComponent<Text> ().text = "2";
+				// 2. User id to prevent user sync the event his sent out
+				myEventData.AddData ("ID", user_id);
+
+				// 3. Sync strokes in the scene
+				//GameObject cp = GameObject.Find ("Paint3DInterface/Painting");
+				GameObject cp = GameObject.Find ("Paint3DInterface/");
+
+				temp.GetComponent<Text> ().text = "3";
+
+				List<GameObject> strokes = new List<GameObject> ();
+				foreach (Transform stroke in cp.transform) {
+					strokes.Add (stroke.gameObject);
+				}
+
+				myEventData.AddData ("Strokes", strokes);
+				clientEvents.Add (new VREvent ("Collaborate", myEventData));
+
+				temp.GetComponent<Text> ().text = "4";
+			} else if (eventName == "MenuStatusChange") {
+				myEventData.AddData ("MenuStatus", MenuManager.ShowMenu);
+				if (user_id == 1) {
+					clientEvents.Add (new VREvent ("User1_Menu_Change", myEventData));
+				} else if (user_id == 2) {
+					clientEvents.Add (new VREvent ("User2_Menu_Change", myEventData));
+				}
+
+			} else if (eventName == "TestInput") {
+				myEventData.AddData ("TestInputString", "Success Input hahaha");
+				clientEvents.Add (new VREvent ("TestInput", myEventData));
+			} 
+
+			// ========= Test Collaboration use =========
+			else if (eventName == "user1ButtonDown") {
+				clientEvents.Add (new VREvent ("stylus1_btn0_down", myEventData));
+			} else if (eventName == "user1ButtonUp") {
+				clientEvents.Add (new VREvent ("stylus1_btn0_up", myEventData));
+			} else if (eventName == "user2ButtonDown") {
+				clientEvents.Add (new VREvent ("stylus0_btn0_down", myEventData));
+			} else if (eventName == "user2ButtonUp") {
+				clientEvents.Add (new VREvent ("stylus0_btn0_up", myEventData));
+			} else if (eventName == "TestSyncCollaborate") {
+				Collaborate c = new Collaborate ();
+				c.IsUser1Start = true;
+				c.IsUser1DrawStart = true;
+				c.IsUser2Start = true;
+				c.IsUser2DrawStart = true;
+
+				// === test user1 => add a vertex created by user2 for test: case 1
+				c.User2StrokeIndex = 1;
+				c.User2VertexIndex = 0;
+				Vertex v = new Vertex (
+					           new Vector3 (0, 0, 0),
+					           Quaternion.identity,
+					           1,
+					           new Vector3 (0, 0, 0)
+				           );
+				c.StrokesInfo.Add (new CollaborateVertexInfo (2, 0, 0, v));
+
+				c.StrokesInfo.Add (new CollaborateVertexInfo (2, 1, 0, v));
+				myEventData.AddData ("CollaborateObject", c);
+
+				myEventData.AddData ("ID", 2);
+
+				GameObject cp = GameObject.Find ("Paint3DInterface/Painting2");
+				//GameObject cp = GameObject.Find ("Paint3DInterface/CollaboratePainting");
+
+				List<GameObject> strokes = new List<GameObject> ();
+				foreach (Transform stroke in cp.transform) {
+					strokes.Add (stroke.gameObject);
+				}
+
+				myEventData.AddData ("Strokes", strokes);
+
+				clientEvents.Add (new VREvent ("Collaborate", myEventData));
+			}
+
+				
 		}
 
 	}

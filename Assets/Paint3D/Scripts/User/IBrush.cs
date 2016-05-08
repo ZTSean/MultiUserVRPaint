@@ -52,4 +52,6 @@ public interface IBrush
 	/// Called when removing brush from stroke
 	/// </summary>
 	void Dispose ();
+
+	void UpdateVertex (int i, Vector3 pos);
 }

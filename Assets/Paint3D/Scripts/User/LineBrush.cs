@@ -88,6 +88,11 @@ public class LineBrush : Brush
 		return opt;
 	}
 
+	public void setPosition (int i, Vector3 pos)
+	{
+		lr.SetPosition (i, pos);
+	}
+
 
 
 	//===================================================
@@ -108,8 +113,11 @@ public class LineBrush : Brush
 	/// </summary>
 	public override void Refresh ()
 	{
-		count = stroke.vertices.Count;
-		lr.SetVertexCount (count);
+		// Update the size of vertex
+		if (count != stroke.vertices.Count) {
+			count = stroke.vertices.Count;
+			lr.SetVertexCount (count);	
+		}
 
 	}
 
@@ -128,4 +136,11 @@ public class LineBrush : Brush
 	{
 		UnityEngine.Object.Destroy (lr);
 	}
+
+	public override void UpdateVertex (int i, Vector3 v)
+	{
+		Debug.Log ("stroke:" + stroke.gameObject.name + "i: " + i.ToString () + " " + v.ToString ());
+		lr.SetPosition (i, v);
+	}
+
 }

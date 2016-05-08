@@ -174,7 +174,7 @@ public class Menu : MonoBehaviour
 				//Debug.DrawLine (pos, pos + new Vector3 (0, -10, 0), Color.red); // test use
 				MenuManager.drawDebugLine2 (pos, pos + new Vector3 (0, -10, 0), Color.red);
 
-				Debug.Log ("remove button selected");
+				//Debug.Log ("remove button selected");
 				SelectedButton = null;
 			}
 		}
@@ -191,12 +191,12 @@ public class Menu : MonoBehaviour
 	{
 		if (SelectedButton == null) {
 			// TODO: no button has been selected
-			Debug.Log ("no selected button");
+			//Debug.Log ("no selected button");
 		} else {
 			// if hover (collide), change to hover color
 			SelectedButton.GetComponent<Item> ().Clicked (gameObject);
 
-			Debug.Log ("button has been selected");
+			//Debug.Log ("button has been selected");
 		}
 
 	}

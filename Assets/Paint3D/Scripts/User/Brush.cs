@@ -58,9 +58,6 @@ public abstract class Brush : ScriptableObject, IBrush
 	/// </summary>
 	public abstract void Dispose ();
 
-
-
-
-
+	public abstract void UpdateVertex (int index, Vector3 pos);
 
 }

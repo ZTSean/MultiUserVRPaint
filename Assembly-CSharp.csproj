@@ -64,11 +64,13 @@
      <Compile Include="Assets\Paint3D\Scripts\PerlinWaves.cs" />
      <Compile Include="Assets\Paint3D\Scripts\User\Brush.cs" />
      <Compile Include="Assets\Paint3D\Scripts\User\BrushManager.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\Collaborate.cs" />
      <Compile Include="Assets\Paint3D\Scripts\User\IBrush.cs" />
      <Compile Include="Assets\Paint3D\Scripts\User\LineBrush.cs" />
      <Compile Include="Assets\Paint3D\Scripts\User\Painting.cs" />
      <Compile Include="Assets\Paint3D\Scripts\User\Player.cs" />
      <Compile Include="Assets\Paint3D\Scripts\User\Stroke.cs" />
+     <Compile Include="Assets\Paint3D\Scripts\User\UserStatus.cs" />
      <Compile Include="Assets\Scripts\InifiniteTerrain.cs" />
      <Compile Include="Assets\Scripts\TerrainGrid.cs" />
  <Reference Include="UnityEngine.UI">

@@ -91,6 +91,16 @@ public class Painting : MonoBehaviour
 		CurStroke = null;
 	}
 
+	public void Restart ()
+	{
+		curStrokeIndex = 0;
+		strokes.Clear ();
+		CurStroke = null;
+		foreach (Transform child in gameObject.transform) {
+			Destroy (child.gameObject);
+		}
+	}
+
 	//===================================================
 	void Start ()
 	{

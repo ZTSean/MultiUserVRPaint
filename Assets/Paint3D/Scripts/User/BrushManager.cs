@@ -53,12 +53,12 @@ public class BrushManager
 					prefabs.Add ((GameObject)item);
 				}
 					
-
+				/*
 				Debug.Log ("loop through prefab:" + prefabs.Count);
 				// console write names of all prefabs
 				foreach (var item in prefabs) {
 					Debug.Log (item.name);
-				}
+				}*/
 
 
 				// following code prerequisite: prefab name is constant to name in enum BrushType

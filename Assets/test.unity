@@ -303,8 +303,8 @@ MonoBehaviour:
   VRServerIP: 134.84.121.29
   VRServerPort: 3490
   fakeTrackersForDebugging: 0
-  fakeTracker1Event: Brush_Move
-  fakeTracker2Event: Hand_Move
+  fakeTracker1Event: Brush1_Move
+  fakeTracker2Event: Hand1_Move
   fakeHeadTracking: 0
   fakeHeadTrackerEvent: Head_Move
   typeChangeEvent: Type_Change
@@ -411,7 +411,7 @@ MonoBehaviour:
   brush1: {fileID: 1610918412}
   brush2: {fileID: 185416926}
   MenuContainer: {fileID: 518119422}
-  user_id: 2
+  user_id: 1
 --- !u!81 &254959763
 AudioListener:
   m_ObjectHideFlags: 0
@@ -681,6 +681,7 @@ Transform:
   - {fileID: 2075248965}
   - {fileID: 354616218}
   - {fileID: 1269085450}
+  - {fileID: 1204548530}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &811554056
@@ -901,6 +902,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &1204548529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 156358, guid: d03c5c221b60141f5bf2aceacfb5bd55, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1204548530}
+  - 114: {fileID: 1204548531}
+  m_Layer: 0
+  m_Name: CollaboratePainting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1204548530
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 478580, guid: d03c5c221b60141f5bf2aceacfb5bd55, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1204548529}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 552325820}
+  m_RootOrder: 7
+--- !u!114 &1204548531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1204548529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c471040e433778044af49573d3759c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strokes: []
+  curStrokeIndex: 0
 --- !u!1 &1269085449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,6 +1454,7 @@ MonoBehaviour:
   MenuContainer: {fileID: 518119422}
   painting: {fileID: 1380374919}
   painting2: {fileID: 1269085449}
+  collaboratePainting: {fileID: 1204548529}
   hPos: {fileID: 2122608317}
   mPos: {fileID: 1289996829}
   bPos: {fileID: 1394481098}

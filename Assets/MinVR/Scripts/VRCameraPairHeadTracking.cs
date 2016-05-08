@@ -64,7 +64,7 @@ namespace MinVR
 				Quaternion newRot = Quaternion.FromToRotation (new Vector3 (0, 0, 1), zHorizontal);
 				user1Avatar.transform.rotation = newRot;
 
-				//------------------ Menu movement ------------------------
+				//------------------ Position test text show ------------------------
 				if (user_id == 1) {
 					/*
 					GameObject terrain = GameObject.Find ("Terrain");
@@ -75,9 +75,6 @@ namespace MinVR
 					Text hPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/HeadPosition").GetComponent<Text> ();
 					Text mPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/MenuPosition").GetComponent<Text> ();
 					Text bPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/BrushPosition").GetComponent<Text> ();
-
-					//MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
-					//MenuContainer.transform.rotation = newRot;
 
 					hPos.text = "H pos: " + pos.ToString ();
 					mPos.text = "m Pos: " + MenuContainer.transform.position.ToString ();
@@ -110,14 +107,11 @@ namespace MinVR
 				Quaternion newRot = Quaternion.FromToRotation (new Vector3 (0, 0, 1), zHorizontal);
 				user2Avatar.transform.rotation = newRot;
 
-				//------------------ Menu movement ------------------------
+				//------------------ Position test text show ------------------------
 				if (user_id == 2) {
 					Text hPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/HeadPosition").GetComponent<Text> ();
 					Text mPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/MenuPosition").GetComponent<Text> ();
 					Text bPos = GameObject.Find ("MinVRUnityClient/VRCameraPair/BrushPosition").GetComponent<Text> ();
-
-					//MenuContainer.transform.position = new Vector3 (pos.x, pos.y - 50, pos.z); 
-					//MenuContainer.transform.rotation = newRot;
 
 					hPos.text = "H pos: " + pos.ToString ();
 					mPos.text = "m Pos: " + MenuContainer.transform.position.ToString ();

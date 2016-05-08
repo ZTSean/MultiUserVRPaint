@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using MinVR;
 
 // Main Menu Options
 using UnityEngine.UI;
@@ -54,8 +55,46 @@ public class MenuManager
 		}
 	}
 
-	//===================================================
-	// MenuContainer: Gameobject hold sub-menus
+	// ---- VRMain client event control and user
+	private static VRMain _vrMain;
+
+	public static VRMain _VRMain {
+		get {
+			if (_vrMain == null) {
+				_vrMain = GameObject.Find ("MinVRUnityClient/VRMain").GetComponent<VRMain> ();
+			}
+
+			return _vrMain;
+		}
+	}
+
+	private static int user_id = 0;
+
+	public static int User_id {
+		get {
+			if (user_id == 0) {
+				GameObject tmp = GameObject.Find ("MinVRUnityClient/VRCameraPair");
+				user_id = tmp.GetComponent<VRCameraPairHeadTracking> ().user_id;
+			}
+
+			return user_id;
+		}
+	}
+
+	// Collaborate work
+	private static Collaborate collaboration;
+
+	public static Collaborate Collaboration {
+		get {
+			if (collaboration == null) {
+				collaboration = new Collaborate ();
+			}
+
+			return collaboration;
+		}
+	}
+
+	//=================================================== MenuContainer: Gameobject hold sub-menus
 	public static void CreateDefaultMenu (GameObject MenuContainer)
 	{
 		// Create list of functions
@@ -102,9 +141,9 @@ public class MenuManager
 
 		// ---- For test use -----
 
-		mc.gameObject.SetActive (true);
-		MenuManager.ShowMenu = true;
-		CurMenu = newMenu;
+		//mc.gameObject.SetActive (true);
+		//MenuManager.ShowMenu = true;
+		//CurMenu = newMenu;
 
 
 	}
@@ -141,6 +180,8 @@ public class MenuManager
 		paintingComponent.CurStroke.Brush.SetOptions (curOptions);
 		*/
 
+		_VRMain.AddClientEvent ("TestInput", User_id);
+
 		Text temp = GameObject.Find ("MinVRUnityClient/VRCameraPair/DrawingDebug").GetComponent<Text> ();
 		temp.GetComponent<Text> ().text = ("Success add: " + currentMenu.name);
 
@@ -157,8 +198,26 @@ public class MenuManager
 
 	public static void StartCollaboration (GameObject currentMenu)
 	{
+		if (User_id == 1) {
+			// Set user 1 is ready for collaborate work
+			Collaboration.IsUser1Start = true;
+
+		} else if (User_id == 2) {
+			// Set user 2 is ready for collaborate work
+			Collaboration.IsUser2Start = true;
+
+		}
+
 		Text temp = GameObject.Find ("MinVRUnityClient/VRCameraPair/DrawingDebug").GetComponent<Text> ();
-		temp.GetComponent<Text> ().text = ("Success add: " + currentMenu.name);
+		temp.GetComponent<Text> ().text = ("Collaboration start!!");
+
+		if (_VRMain == null) {
+			temp.GetComponent<Text> ().text = ("vrmain not find");
+		} else {
+			temp.GetComponent<Text> ().text = ("vrmain find");
+			_VRMain.AddClientEvent ("SyncCollaborate", User_id);
+		}
+
 	}
 
 	//--------------------------------------------------- Second Level
@@ -209,6 +268,28 @@ public class MenuManager
 
 	}
 
+	public static void cleanDebugLine2 ()
+	{
+		GameObject tmp = GameObject.Find ("DebugLine2");
+
+		if (tmp.GetComponent<LineRenderer> () == null) {
+			tmp.AddComponent<LineRenderer> ();
+		}
+		LineRenderer lr = tmp.GetComponent<LineRenderer> ();
+		lr.SetVertexCount (0);
+	}
+
+	public static void cleanDebugLine ()
+	{
+		GameObject tmp = GameObject.Find ("DebugLine");
+
+		if (tmp.GetComponent<LineRenderer> () == null) {
+			tmp.AddComponent<LineRenderer> ();
+		}
+		LineRenderer lr = tmp.GetComponent<LineRenderer> ();
+		lr.SetVertexCount (0);
+	}
+
 	public static void OpenMenu (Menu m, Vector3 pos, GameObject mContainer)
 	{
 		m.ShowMenu = true;
@@ -225,5 +306,7 @@ public class MenuManager
 		MenuManager.CurMenu.SetActive (false);
 		MenuManager.CurMenu = null;
 		MenuManager.ShowMenu = false;
+		cleanDebugLine ();
+		cleanDebugLine2 ();
 	}
 }
